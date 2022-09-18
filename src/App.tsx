@@ -106,8 +106,7 @@ function App() {
                             title={el.title}
                             tasks={task}
                             removeTask={removeTask}
-                            addTask={addTask}
-                            changeStatus={changeStatus}
+                            addTask={addTask} changeStatus={changeStatus}
 
                 />
             )
