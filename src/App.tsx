@@ -3,6 +3,8 @@ import {TaskType, Todolist} from './Todolist';
 import './App.css';
 import {v1} from "uuid";
 import {AddItemForm} from "./AddItemForm";
+import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
+import {Menu} from "@material-ui/icons";
 
 export type FilterValuesType = "all" | "completed" | 'active';
 
@@ -65,12 +67,18 @@ function App() {
         setTasks(copyTasks);
     };
     const changeTaskStatus = (taskId: string, isDone: boolean, todoListId: string) => {
-        setTasks({...tasks, [todoListId]: tasks[todoListId].map(el => el.id === taskId ? {
-                ...el, isDone} : el)});
+        setTasks({
+            ...tasks, [todoListId]: tasks[todoListId].map(el => el.id === taskId ? {
+                ...el, isDone
+            } : el)
+        });
     }
     const changeTaskTitle = (taskId: string, title: string, todoListId: string) => {
-        setTasks({...tasks, [todoListId]: tasks[todoListId].map(el => el.id === taskId ? {
-            ...el, title} : el)});
+        setTasks({
+            ...tasks, [todoListId]: tasks[todoListId].map(el => el.id === taskId ? {
+                ...el, title
+            } : el)
+        });
     }
 
 //todoList CRUD
@@ -91,9 +99,9 @@ function App() {
 
     const getTasksForTodoList = (todoLists: TodoListType) => {
         if (todoLists.filter === 'active') {
-           return  tasks[todoLists.id].filter(el => !el.isDone);
+            return tasks[todoLists.id].filter(el => !el.isDone);
         } else if (todoLists.filter === 'completed') {
-           return  tasks[todoLists.id].filter(el => el.isDone);
+            return tasks[todoLists.id].filter(el => el.isDone);
         } else {
             return tasks[todoLists.id]
         }
@@ -104,7 +112,10 @@ function App() {
     const todoListComponents = todoLists.map(el => {
             const task = getTasksForTodoList(el)
 
-        return (<Todolist
+            return (
+                <Grid item >
+                <Paper elevation={10} style={{padding: '20px 20px'}}>
+                        <Todolist
                             changeFilter={changeTodoFilter}
                             removeTodoList={removeTodoList}
                             key={el.id}
@@ -117,16 +128,45 @@ function App() {
                             changeStatus={changeTaskStatus}
                             changeTaskTitle={changeTaskTitle}
                             changeTodoTitle={changeTodoTitle}
+                        />
+                    </Paper>
+                </Grid>
 
-                />
             )
         }
     )
 
     return (
         <div className="App">
-            <AddItemForm addItem={addTodoList}/>
-            {todoListComponents}
+            <AppBar position={'static'}>
+                <Toolbar style={{justifyContent: "space-between"}}>
+                    <IconButton
+                            edge={'start'}
+                            color={'inherit'}
+                            aria-label={'menu'}>
+                        <Menu />
+                    </IconButton>
+                    <Typography variant={'h6'}>
+                        TodoLists
+                    </Typography>
+                    <Button
+                     color={'inherit'}
+                     variant={'outlined'}
+                    >
+                        Login
+                    </Button>
+                </Toolbar>
+
+            </AppBar>
+            <Container fixed>
+                <Grid container style={{padding: '20px 0'}} justifyContent={'center'}>
+                    <AddItemForm addItem={addTodoList}/>
+                </Grid>
+                <Grid container spacing={5} justifyContent={'center'}>
+                    {todoListComponents}
+                </Grid>
+            </Container>
+
         </div>
     );
 }
