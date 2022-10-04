@@ -23,13 +23,10 @@ function App() {
     const todoList2 = v1();
 
 
-    const [todoLists, setTodoLists] = useState<Array<TodoListType>>(
-        [
+    const [todoLists, setTodoLists] = useState<Array<TodoListType>>([
             {id: todoList1, title: 'What to learn', filter: "all"},
             {id: todoList2, title: 'What to sell', filter: "all"},
-
-        ]
-    )
+        ])
 
     const [tasks, setTasks] = useState<TasksStateType>({
         [todoList1]: [
@@ -44,7 +41,6 @@ function App() {
 
         ]
     })
-
 //tasks CRUD
     const removeTask = (taskId: string, todoListId: string) => {
         const todoListTasks = tasks[todoListId]

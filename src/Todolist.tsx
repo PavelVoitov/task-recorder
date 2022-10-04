@@ -33,7 +33,7 @@ export const Todolist = (props: TodolistPropsType) => {
         props.addTask(title, props.todoListId)
     };
 
-    const onClickHandler = (filter: FilterValuesType, todoListId: string) => {
+    const handlerCreator = (filter: FilterValuesType, todoListId: string) => {
         return () => props.changeFilter(filter, todoListId);
     };
 
@@ -106,15 +106,15 @@ export const Todolist = (props: TodolistPropsType) => {
                     >
                         <Button
                             color={props.filter === 'all' ? "secondary" : "primary"}
-                            onClick={onClickHandler('all', props.todoListId)}>All
+                            onClick={handlerCreator('all', props.todoListId)}>All
                         </Button>
                         <Button
                             color={props.filter === 'active' ? "secondary" : "primary"}
-                            onClick={onClickHandler('active', props.todoListId)}>Active
+                            onClick={handlerCreator('active', props.todoListId)}>Active
                         </Button>
                         <Button
                             color={props.filter === 'completed' ? "secondary" : "primary"}
-                            onClick={onClickHandler('completed', props.todoListId)}>Completed
+                            onClick={handlerCreator('completed', props.todoListId)}>Completed
                         </Button>
                     </ButtonGroup>
 
