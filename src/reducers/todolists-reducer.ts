@@ -1,15 +1,16 @@
 
-import {FilterValuesType, TodoListType} from "../App";
+import {FilterValuesType, TasksStateType, TodoListType} from "../App";
 import {v1} from "uuid";
 
-type RemoveTodoListAT = {
+export type RemoveTodoListAT = {
     type: 'REMOVE-TODOLIST'
     todoListId: string
 }
 
-type AddTodoListAT = {
+export type AddTodoListAT = {
     type: 'ADD-TODOLIST'
     title: string
+    todoListId: string
 }
 
 type ChangeTodoFilterAT = {
@@ -26,13 +27,14 @@ type ChangeTodoTitleAT = {
 
 type ActionType = RemoveTodoListAT | AddTodoListAT | ChangeTodoFilterAT | ChangeTodoTitleAT
 
-export const todolistsReducer = (todoLists: Array<TodoListType>, action: ActionType) : Array<TodoListType> => {
+const initialState : Array<TodoListType> = []
+
+export const todolistsReducer = (todoLists: Array<TodoListType> = initialState, action: ActionType) : Array<TodoListType> => {
     switch (action.type) {
         case "REMOVE-TODOLIST":
             return todoLists.filter(el => el.id !== action.todoListId);
         case 'ADD-TODOLIST':
-            const newTodoListId = v1();
-            return [...todoLists, {id: newTodoListId, title: action.title, filter: "all"}]
+            return [...todoLists, {id: action.todoListId, title: action.title, filter: "all"}]
         case "CHANGE-TODOLIST-FILTER":
             return todoLists.map(el => el.id === action.todoListId ? {...el, filter: action.filter} : el)
         case "CHANGE-TODOLIST-TITLE":
@@ -45,7 +47,7 @@ export const todolistsReducer = (todoLists: Array<TodoListType>, action: ActionT
 
 
 export const RemoveTodoListAC = (id: string): RemoveTodoListAT => ({type: "REMOVE-TODOLIST", todoListId: id})
-export const AddTodoListAC = (title: string): AddTodoListAT => ({type: "ADD-TODOLIST", title})
+export const AddTodoListAC = (title: string): AddTodoListAT => ({type: "ADD-TODOLIST", title, todoListId: v1()})
 export const ChangeTodoFilterAC = (id: string, filter: FilterValuesType): ChangeTodoFilterAT => ({type: 'CHANGE-TODOLIST-FILTER', todoListId: id, filter})
 export const ChangeTodoTitleAC = (title: string, id: string): ChangeTodoTitleAT => ({type: 'CHANGE-TODOLIST-TITLE', title, todoListId: id})
 
