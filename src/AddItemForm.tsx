@@ -7,7 +7,8 @@ type AddItemFormPropsType = {
     addItem: (title: string) => void
 }
 
-export const AddItemForm = (props:AddItemFormPropsType) => {
+export const AddItemForm = React.memo((props:AddItemFormPropsType) => {
+    console.log('AddItemForm')
     const [title, setTitle] = useState<string>('');
     const [error, setError] = useState<boolean>(false)
 
@@ -26,17 +27,13 @@ export const AddItemForm = (props:AddItemFormPropsType) => {
     };
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(false);
+        if  (error) setError(false);
         if (e.key === "Enter") {
             addItem()
             setTitle('');
         }
     };
 
-    const userMessage =
-        error
-            ? <div style={{color: 'hotpink'}}>Title is require</div>
-            : <div>Please, create list item's title</div>
 
 
     return (
@@ -44,7 +41,6 @@ export const AddItemForm = (props:AddItemFormPropsType) => {
             <TextField
                 variant={'outlined'}
                 size={'small'}
-                // style={{padding: 0, height: '5px'}}
                 value={title}
                 onChange={changeTitle}
                 onKeyDown={onKeyPressHandler}
@@ -56,7 +52,6 @@ export const AddItemForm = (props:AddItemFormPropsType) => {
                 onClick={addItem}>
                 <AddBox style={{color: 'db6b7c'}}/>
             </IconButton>
-            {/*{userMessage}*/}
         </div>
     )
-}
+})

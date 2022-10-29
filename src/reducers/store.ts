@@ -1,6 +1,12 @@
 import {tasksReducer} from './tasks-reducer'
-import {combineReducers, legacy_createStore} from "redux";
+import {combineReducers, compose, legacy_createStore} from "redux";
 import {todolistsReducer} from "./todolists-reducer";
+
+declare global {
+    interface Window {
+        __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+    }
+}
 
 
 const rootReducer = combineReducers({
@@ -8,7 +14,9 @@ const rootReducer = combineReducers({
     todolists: todolistsReducer
 })
 
-export const store = legacy_createStore(rootReducer);
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+export const store = legacy_createStore(rootReducer, composeEnhancers());
 
 export type AppRootStateType = ReturnType<typeof rootReducer>
 
