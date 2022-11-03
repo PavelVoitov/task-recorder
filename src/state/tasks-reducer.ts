@@ -1,5 +1,5 @@
 
-import {FilterValuesType, TasksStateType} from "../AppWithRedux";
+import { TasksStateType} from "../AppWithRedux";
 import {v1} from "uuid";
 import {AddTodoListAT, RemoveTodoListAT} from "./todolists-reducer";
 
@@ -71,7 +71,7 @@ export const changeTaskStatusAC = (taskId: string, isDone: boolean, todolistId: 
 export const changeTaskTitleAC = (taskId: string, title: string, todolistId: string) => {
     return {type: 'CHANGE-TASK-TITLE', taskId, title, todolistId} as const
 }
-const RemoveTodolistAC = (todolistId: string) => {return{type: 'REMOVE-TODOLIST', todolistId} as const}
+const removeTodolistAC = (todolistId: string) => {return {type: 'REMOVE-TODOLIST', todolistId} as const}
 
 
 

@@ -9,8 +9,6 @@ import {
 import {FilterValuesType, TodolistType} from "../AppWithRedux";
 
 
-
-
 let todolistId1: string
 let todolistId2: string
 
