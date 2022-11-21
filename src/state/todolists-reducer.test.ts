@@ -11,12 +11,11 @@ import {FilterValuesType, TodolistType} from "../AppWithRedux";
 
 let todolistId1: string
 let todolistId2: string
-
 let startState: Array<TodolistType>
 
 beforeEach(() => {
-    let todolistId1 = v1();
-    let todolistId2 = v1();
+    todolistId1 = v1();
+    todolistId2 = v1();
 
     startState = [
         {id: todolistId1, title: "What to learn", filter: "all"},
@@ -28,8 +27,8 @@ test('correct todolist should be removed', () => {
 
     const endState = todolistsReducer(startState, removeTodolistAC(todolistId1))
 
-    expect(endState.length).toBe(1);
-    expect(endState[0].id).toBe(todolistId2);
+    expect(endState.length).toBe(1)
+    expect(endState[0].id).toBe(todolistId2)
 });
 
 test('correct todolist should be added', () => {
@@ -54,10 +53,9 @@ test('correct filter of todolist should be changed', () => {
 });
 
 test('title of todolist should be changed', () => {
-
     let newTitle = "New name";
 
-    const endState = todolistsReducer(startState, changeTodolistTitleAC(newTitle, todolistId2));
+    const endState = todolistsReducer(startState, changeTodolistTitleAC(todolistId2, newTitle));
 
     expect(endState[0].title).toBe("What to learn");
     expect(endState[1].title).toBe("New name");
