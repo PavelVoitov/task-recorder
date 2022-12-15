@@ -23,8 +23,6 @@ type ActionType = RemoveTaskActionType
 const initialState : TasksStateType = {}
 
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionType) : TasksStateType => {
-
-
     switch (action.type) {
         case "REMOVE-TASK":
             return {
@@ -63,7 +61,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
 }
 
 
-export const removeTaskAC = (taskId: string, todolistId: string)=> {return {type: 'REMOVE-TASK', taskId, todolistId} as const}
+export const removeTaskAC = (taskId: string, todolistId: string) => {return {type: 'REMOVE-TASK', taskId, todolistId} as const}
 export const addTaskAC = (title: string, todoListId: string) => {return {type: 'ADD-TASK', title, todoListId} as const}
 export const changeTaskStatusAC = (taskId: string, isDone: boolean, todolistId: string) => { return {type: 'CHANGE-TASK-STATUS', taskId, isDone, todolistId} as const
 }
