@@ -84,12 +84,12 @@ type ResponseType<T = {}> = {
     data: T
 }
 
-type UpdateTaskModelType = {
-    title: string
-    description: string
-    completed: boolean
-    status: number
-    priority: number
-    startDate: Date
-    deadline: Date
-}
+// type UpdateTaskModelType = {
+//     title: string
+//     description: string
+//     completed: boolean
+//     status: number
+//     priority: number
+//     startDate: Date
+//     deadline: Date
+// }

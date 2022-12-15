@@ -2,7 +2,6 @@ import React, {useCallback} from 'react';
 import {FilterValuesType} from './AppWithRedux';
 import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
-import {Task} from "./Task";
 import {Delete} from "@mui/icons-material";
 import {Button, IconButton} from "@mui/material";
 import {TaskWithRedux} from "./TaskWithRedux";
@@ -55,13 +54,6 @@ export const Todolist = React.memo((props: PropsType) => {
         tasksForTodolist = tasksForTodolist.filter(t => t.isDone);
     }
 
-    const removeTask = useCallback((taskId: string) => props.removeTask(taskId, props.id), [props.removeTask, props.id])
-    const onChangeHandler = useCallback((taskId: string, status: boolean) => {
-        props.changeTaskStatus(taskId, status, props.id);
-    }, [props.changeTaskStatus, props.id])
-    const onTitleChangeHandler = useCallback((taskId: string, newValue: string) => {
-        props.changeTaskTitle(taskId, newValue, props.id);
-    }, [props.changeTaskTitle, props.id])
 
     return <div>
         <h3><EditableSpan title={props.title} changeTitle={changeTodolistTitle}/>
