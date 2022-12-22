@@ -1,56 +1,37 @@
-import React, {memo, useCallback} from 'react';
+import React, {memo, useCallback, useEffect} from 'react';
 import './App.css';
-import {TaskType, Todolist} from './Todolist';
+import {Todolist} from './Todolist';
 import {AddItemForm} from './AddItemForm';
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from './state/tasks-reducer';
-import {useDispatch, useSelector} from 'react-redux';
-import {AppRootStateType} from './state/store';
+import {addTaskAC, addTasksTC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from './state/tasks-reducer';
+import {useSelector} from 'react-redux';
+import {AppDispatch, AppRootStateType, useAppSelector} from './state/store';
 import {
     addTodolistAC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC,
-    removeTodolistAC,
+    changeTodolistTitleAC, FilterValuesType, getTodolistsTC,
+    removeTodolistAC, TodolistDomainType,
 } from "./state/todolists-reducer";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
+import {TaskStatuses, TaskType, todolistAPI} from "./api/todolist-api";
 
-
-export type FilterValuesType = "all" | "active" | "completed";
-export type TodolistType = {
-    id: string
-    title: string
-    filter: FilterValuesType
-}
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
-
 const AppWithRedux = memo(() => {
 
-    const todolists = useSelector<AppRootStateType, Array<TodolistType>>(state => state.todolists)
-    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
-    const dispatch = useDispatch();
+   useEffect(() => {
+      dispatch(getTodolistsTC())
+   }, [])
 
-    const removeTask = useCallback((id: string, todolistId: string) => {
-        const action = removeTaskAC(id, todolistId);
-        dispatch(action);
-    }, [dispatch])
+    const todolists = useAppSelector<Array<TodolistDomainType>>(state => state.todolists)
+    const tasks = useAppSelector<TasksStateType>(state => state.tasks)
+    const dispatch = AppDispatch();
 
-    const addTask = useCallback((title: string, todolistId: string) => {
-        const action = addTaskAC(title, todolistId);
-        dispatch(action);
-    }, [dispatch])
-
-    const changeStatus = useCallback((id: string, isDone: boolean, todolistId: string) => {
-        const action = changeTaskStatusAC(id, isDone, todolistId);
-        dispatch(action);
-    }, [dispatch])
-
-    const changeTaskTitle = useCallback((id: string, newTitle: string, todolistId: string) => {
-        const action = changeTaskTitleAC(id, newTitle, todolistId);
-        dispatch(action);
+    const addTask = useCallback((todolistId: string, title: string,) => {
+        dispatch(addTasksTC(todolistId, title));
     }, [dispatch])
 
     const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {
@@ -99,13 +80,10 @@ const AppWithRedux = memo(() => {
                                         id={tl.id}
                                         title={tl.title}
                                         tasks={tasks[tl.id]}
-                                        removeTask={removeTask}
                                         changeFilter={changeFilter}
                                         addTask={addTask}
-                                        changeTaskStatus={changeStatus}
                                         filter={tl.filter}
                                         removeTodolist={removeTodolist}
-                                        changeTaskTitle={changeTaskTitle}
                                         changeTodolistTitle={changeTodolistTitle}
                                     />
                                 </Paper>

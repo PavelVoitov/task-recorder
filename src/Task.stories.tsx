@@ -1,29 +1,54 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import React from 'react';
+import {ComponentMeta, ComponentStory} from '@storybook/react';
 import {action} from "@storybook/addon-actions";
-import {Task} from "./Task";
+import {TaskWithRedux} from "./TaskWithRedux";
+import {TaskStatuses, TaskPriorities} from "./api/todolist-api";
+import {ReduxStoreProviderDecorator} from "./state/ReduxStoreProviderDecorator";
 
 
 export default {
     title: 'TODOLIST/Task',
-    component: Task,
+    component: TaskWithRedux,
+    decorators: [ReduxStoreProviderDecorator],
     args: {
         changeTaskStatus: action('change Task Status'),
         changeTaskTitle: action('change Task Title'),
         removeTask: action('remove Task'),
-        task: {id: '1', isDone: true, title: 'JS'},
-        todolistId: 'todolistId1'
     },
-} as ComponentMeta<typeof Task>;
+} as ComponentMeta<typeof TaskWithRedux>;
 
-const Template: ComponentStory<typeof Task> = (args) => <Task {...args} />;
+const Template: ComponentStory<typeof TaskWithRedux> = (args) => <TaskWithRedux {...args} />;
 
 
 export const TaskIsDoneStory = Template.bind({});
-TaskIsDoneStory.args = {};
+TaskIsDoneStory.args = {
+    task: {
+        id: '1',
+        status: TaskStatuses.Completed,
+        title: 'JS',
+        description: 'string',
+        priority: TaskPriorities.Low,
+        startDate: '',
+        deadline: '',
+        todoListId: '1',
+        order: 0,
+        addedDate: ''
+    },
+};
 
 export const TaskIsNotDoneStory = Template.bind({});
 TaskIsNotDoneStory.args = {
-    task: {id: '2', isDone: false, title: 'HTML'},
+    task: {
+        id: '2',
+        status: TaskStatuses.New,
+        title: 'HTML',
+        description: 'string',
+        priority: TaskPriorities.Low,
+        startDate: '',
+        deadline: '',
+        todoListId: '2',
+        order: 0,
+        addedDate: ''
+    },
 };
 
