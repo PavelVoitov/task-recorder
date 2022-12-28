@@ -2,18 +2,16 @@ import React, {memo, useCallback, useEffect} from 'react';
 import './App.css';
 import {Todolist} from './Todolist';
 import {AddItemForm} from './AddItemForm';
-import {addTaskAC, addTasksTC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from './state/tasks-reducer';
-import {useSelector} from 'react-redux';
-import {AppDispatch, AppRootStateType, useAppSelector} from './state/store';
+import {addTasksTC} from './state/tasks-reducer';
+import {AppDispatch, useAppSelector} from './state/store';
 import {
-    addTodolistAC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC, FilterValuesType, getTodolistsTC,
-    removeTodolistAC, TodolistDomainType,
+    createTodolistTC, deleteTodolistTC, FilterValuesType, getTodolistsTC,
+    TodolistDomainType, updateTodolistTC,
 } from "./state/todolists-reducer";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
-import {TaskStatuses, TaskType, todolistAPI} from "./api/todolist-api";
+import {TaskType} from "./api/todolist-api";
 
 
 export type TasksStateType = {
@@ -40,18 +38,15 @@ const AppWithRedux = memo(() => {
     }, [dispatch])
 
     const removeTodolist = useCallback((id: string) => {
-        const action = removeTodolistAC(id);
-        dispatch(action);
+        dispatch(deleteTodolistTC(id))
     }, [dispatch])
 
     const changeTodolistTitle = useCallback((id: string, title: string) => {
-        const action = changeTodolistTitleAC(id, title);
-        dispatch(action);
+        dispatch(updateTodolistTC(id, title))
     }, [dispatch])
 
     const addTodolist = useCallback((title: string) => {
-        const action = addTodolistAC(title);
-        dispatch(action);
+        dispatch(createTodolistTC(title))
     }, [dispatch])
 
     return (

@@ -71,6 +71,11 @@
       "last 1 safari version"
     ]
   },
+  "jest": {
+    "moduleNameMapper": {
+      "axios": "axios/dist/node/axios.cjs"
+    }
+  },
   "devDependencies": {
     "@storybook/addon-actions": "^6.5.13",
     "@storybook/addon-essentials": "^6.5.13",
@@ -91,3 +96,4 @@
     "webpack": "5"
   }
 }
+

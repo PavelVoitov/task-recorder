@@ -2,7 +2,11 @@ import {EditableSpan} from "./EditableSpan";
 import React, {ChangeEvent, useCallback} from "react";
 import {Delete} from "@mui/icons-material";
 import {Checkbox, IconButton} from "@mui/material";
-import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, removeTasksTC, updateTaskTC} from "./state/tasks-reducer";
+import {
+    removeTasksTC,
+    updateTaskTC,
+    updateTaskTitleTC
+} from "./state/tasks-reducer";
 import './App.css'
 import {TaskStatuses, TaskType} from "./api/todolist-api";
 import {AppDispatch} from "./state/store";
@@ -22,7 +26,7 @@ export const TaskWithRedux = React.memo(({task, todolistId} : TaskPropsType) => 
         dispatch(updateTaskTC(todolistId, task.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New))}, [])
 
     const onTitleChangeHandler = useCallback((newValue: string) => {
-        dispatch(changeTaskTitleAC(task.id, newValue, todolistId));
+        dispatch(updateTaskTitleTC(task.id, newValue, todolistId));
     }, [])
 
     return (

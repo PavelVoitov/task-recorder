@@ -121,15 +121,13 @@ export const UpdateTaskTitle = () => {
     const [description, setDescription] = useState<string>('description 1')
     const [status, setStatus] = useState<number>(0)
     const [priority, setPriority] = useState<number>(0)
-    const [startDate, setStartDate] = useState<string>('')
-    const [deadline, setDeadline] = useState<string>('')
 
     const [todolistId, setTodolistId] = useState<string>('')
     const [taskId, setTaskId] = useState<string>('')
 
 
     const updateTask = () => {
-            todolistAPI.updateTask(todolistId, taskId, {
+            todolistAPI.updateTaskStatus(todolistId, taskId, {
                 title,
                 description,
                 status,

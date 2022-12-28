@@ -1,5 +1,4 @@
 import {TasksStateType} from "../AppWithRedux";
-import {v1} from "uuid";
 import {AddTodoListAT, RemoveTodoListAT, SetTodolistsActionType} from "./todolists-reducer";
 import {TaskStatuses, TaskType, todolistAPI, UpdateTaskModelType} from "../api/todolist-api";
 import {Dispatch} from "redux";
@@ -124,6 +123,13 @@ export const addTasksTC = (todolistId: string, title: string) => (dispatch: Disp
         })}
 
 
+export const updateTaskTitleTC = (taskId: string, title: string, todolistId: string) => (dispatch: Dispatch) => {
+    todolistAPI.updateTaskTitle(taskId, title, todolistId)
+        .then(() => {
+            dispatch(changeTaskTitleAC(taskId, title, todolistId))
+        })
+}
+
 export const updateTaskTC = (todolistId: string, taskId: string, status: TaskStatuses) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
     const tasks = getState().tasks
     const task = tasks[todolistId].find(t => t.id === taskId)
@@ -137,8 +143,8 @@ if (task) {
         priority: task.priority,
 
     }
-    todolistAPI.updateTask(todolistId, taskId, model)
-        .then((res) => {
+    todolistAPI.updateTaskStatus(todolistId, taskId, model)
+        .then(() => {
             dispatch(changeTaskStatusAC(taskId, status, todolistId))
         })
 }
