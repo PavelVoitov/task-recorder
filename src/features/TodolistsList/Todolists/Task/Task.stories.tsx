@@ -1,23 +1,23 @@
 import React from 'react';
 import {ComponentMeta, ComponentStory} from '@storybook/react';
 import {action} from "@storybook/addon-actions";
-import {TaskWithRedux} from "./TaskWithRedux";
-import {TaskStatuses, TaskPriorities} from "./api/todolist-api";
-import {ReduxStoreProviderDecorator} from "./state/ReduxStoreProviderDecorator";
+import {TaskStatuses, TaskPriorities} from "../../../../api/todolist-api";
+import {ReduxStoreProviderDecorator} from "../../../../stories/ReduxStoreProviderDecorator";
+import { Task } from './Task';
 
 
 export default {
     title: 'TODOLIST/Task',
-    component: TaskWithRedux,
+    component: Task,
     decorators: [ReduxStoreProviderDecorator],
     args: {
         changeTaskStatus: action('change Task Status'),
         changeTaskTitle: action('change Task Title'),
         removeTask: action('remove Task'),
     },
-} as ComponentMeta<typeof TaskWithRedux>;
+} as ComponentMeta<typeof Task>;
 
-const Template: ComponentStory<typeof TaskWithRedux> = (args) => <TaskWithRedux {...args} />;
+const Template: ComponentStory<typeof Task> = (args) => <Task {...args} />;
 
 
 export const TaskIsDoneStory = Template.bind({});

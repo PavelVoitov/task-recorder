@@ -1,4 +1,4 @@
-import {EditableSpan} from "./EditableSpan";
+import {EditableSpan} from "../../../../components/EditableSpan/EditableSpan";
 import React, {ChangeEvent, useCallback} from "react";
 import {Delete} from "@mui/icons-material";
 import {Checkbox, IconButton} from "@mui/material";
@@ -6,17 +6,17 @@ import {
     removeTasksTC,
     updateTaskTC,
     updateTaskTitleTC
-} from "./state/tasks-reducer";
-import './App.css'
-import {TaskStatuses, TaskType} from "./api/todolist-api";
-import {AppDispatch} from "./state/store";
+} from "../tasks-reducer";
+import '../../../../app/App.css'
+import {TaskStatuses, TaskType} from "../../../../api/todolist-api";
+import {AppDispatch} from "../../../../app/store";
 
 export type TaskPropsType = {
     task: TaskType
     todolistId: string
 }
 
-export const TaskWithRedux = React.memo(({task, todolistId} : TaskPropsType) => {
+export const Task = React.memo(({task, todolistId} : TaskPropsType) => {
     const dispatch = AppDispatch()
 
     const onClickHandler = useCallback(() => dispatch(removeTasksTC(todolistId, task.id)), [])
