@@ -3,9 +3,7 @@ import React, {ChangeEvent, useCallback} from "react";
 import {Delete} from "@mui/icons-material";
 import {Checkbox, IconButton} from "@mui/material";
 import {
-    removeTasksTC,
-    updateTaskTC,
-    updateTaskTitleTC
+    removeTasksTC, updateTaskTC,
 } from "../tasks-reducer";
 import '../../../../app/App.css'
 import {TaskStatuses, TaskType} from "../../../../api/todolist-api";
@@ -23,10 +21,10 @@ export const Task = React.memo(({task, todolistId} : TaskPropsType) => {
 
     const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked;
-        dispatch(updateTaskTC(todolistId, task.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New))}, [])
+        dispatch(updateTaskTC(todolistId, task.id, {status: newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New}))}, [])
 
     const onTitleChangeHandler = useCallback((newValue: string) => {
-        dispatch(updateTaskTitleTC(task.id, newValue, todolistId));
+        dispatch(updateTaskTC(todolistId, task.id, {title: newValue}));
     }, [])
 
     return (
