@@ -127,7 +127,7 @@ export const UpdateTaskTitle = () => {
 
 
     const updateTask = () => {
-            todolistAPI.updateTaskStatus(todolistId, taskId, {
+            todolistAPI.updateTask(todolistId, taskId, {
                 title,
                 description,
                 status,
