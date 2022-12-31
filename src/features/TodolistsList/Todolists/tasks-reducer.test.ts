@@ -162,8 +162,8 @@ test('empty arrays should be added when we set todolists', () => {
 
     const action = setTodolistsAC(
         [
-            {id: "1", title: "1",  addedDate: '', order: 0, filter: "all"},
-            {id: "2", title: "2", addedDate: '', order: 0, filter: "all"}
+            {id: "1", title: "1",  addedDate: '', order: 0, filter: "all", entityStatus: 'idle'},
+            {id: "2", title: "2", addedDate: '', order: 0, filter: "all", entityStatus: 'idle'}
         ]
     )
 

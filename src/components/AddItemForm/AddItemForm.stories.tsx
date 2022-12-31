@@ -23,8 +23,9 @@ AddItemFormStory.args = {
     addItem: action('Button clicked inside form' )
 };
 
-export const AddItemFormStoryWithError = Template.bind({});
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
-AddItemFormStoryWithError.args = {
-    addItem: action('Button clicked inside form' )
-};
+export const AddItemFormDisabledExample = (props: any) => {
+    return (
+        <AddItemForm disabled={true} addItem={action('Button clicked inside form' )}/>
+    )
+}
+

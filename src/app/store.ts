@@ -3,6 +3,7 @@ import {AnyAction, applyMiddleware, combineReducers, compose, legacy_createStore
 import {todolistsReducer} from "../features/TodolistsList/Todolists/todolists-reducer";
 import thunk, {ThunkDispatch} from 'redux-thunk'
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
+import {appReducer} from "./app-reducer";
 
 declare global {
     interface Window {
@@ -13,7 +14,8 @@ declare global {
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
-    todolists: todolistsReducer
+    todolists: todolistsReducer,
+    app: appReducer
 })
 
 
