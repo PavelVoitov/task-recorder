@@ -21,14 +21,14 @@ type PropsType = {
 }
 
 
-export const Todolist = React.memo(({demo = false,...props}: PropsType) => {
+export const Todolist = React.memo(({demo = false, ...props}: PropsType) => {
 
     const dispatch = AppDispatch();
     useEffect(() => {
         if (demo) {
             return
         }
-            dispatch(setTasksTC(props.todolist.id))
+        dispatch(setTasksTC(props.todolist.id))
 
     }, [])
     const addTask = useCallback((title: string) => {
@@ -68,7 +68,9 @@ export const Todolist = React.memo(({demo = false,...props}: PropsType) => {
                 tasksForTodolist.map(t => {
                     return <Task key={t.id}
                                  task={t}
-                                 todolistId={props.todolist.id}/>
+                                 todolistId={props.todolist.id}
+                                 todolistStatus={props.todolist.entityStatus}
+                    />
                 })
             }
         </div>

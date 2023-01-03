@@ -1,10 +1,12 @@
 import {todolistAPI, TodolistType} from "../../../api/todolist-api";
 import {Dispatch} from "redux";
-import {RequestStatusType, setAppStatusAC, SetStatusType} from "../../../app/app-reducer";
+import {RequestStatusType, setAppStatusAC, SetAppStatusType} from "../../../app/app-reducer";
+import {handleServerAppError, handleServerNetworkError} from "../../../utils/error-utils";
 
 export type RemoveTodoListAT = ReturnType<typeof removeTodolistAC>
 export type AddTodoListAT = ReturnType<typeof addTodolistAC>
 export type SetTodolistsActionType = ReturnType<typeof setTodolistsAC>
+export type changeTodolistEntityStatusActionType = ReturnType<typeof changeTodolistEntityStatusAC>
 
 export type FilterValuesType = "all" | "active" | "completed";
 export type TodolistDomainType = TodolistType & {
@@ -18,7 +20,7 @@ type ActionType =
     | ReturnType<typeof changeTodolistFilterAC>
     | ReturnType<typeof changeTodolistTitleAC>
     | SetTodolistsActionType
-    | SetStatusType
+    | SetAppStatusType
     | ReturnType<typeof changeTodolistEntityStatusAC>
 
 const initialState: Array<TodolistDomainType> = []
@@ -75,19 +77,36 @@ export const deleteTodolistTC = (todolistId: string) => (dispatch: Dispatch<Acti
                 dispatch(setAppStatusAC('succeeded'))
             }
         })
+        .catch((error) => {
+            handleServerNetworkError(error, dispatch)
+        })
 }
 export const createTodolistTC = (title: string) => (dispatch: Dispatch<ActionType>) => {
     dispatch(setAppStatusAC('loading'))
     todolistAPI.createTodolist(title)
         .then((res) => {
-            dispatch(addTodolistAC(res.data.data.item))
-            dispatch(setAppStatusAC('succeeded'))
+            if (res.data.resultCode === 0) {
+                dispatch(addTodolistAC(res.data.data.item))
+                dispatch(setAppStatusAC('succeeded'))
+            } else {
+                handleServerAppError(res.data, dispatch)
+            }
         })
+        .catch((error) => {
+        handleServerNetworkError(error, dispatch)
+    })
 }
 export const updateTodolistTC = (todolistId: string, title: string) => (dispatch: Dispatch<ActionType>) => {
     todolistAPI.updateTodolist(todolistId, title)
-        .then(() => {
+        .then((res) => {
+            if (res.data.resultCode === 0) {
             dispatch(changeTodolistTitleAC(todolistId, title))
+            } else {
+                handleServerAppError(res.data, dispatch)
+            }
+        })
+        .catch((error) => {
+            handleServerNetworkError(error, dispatch)
         })
 }
 

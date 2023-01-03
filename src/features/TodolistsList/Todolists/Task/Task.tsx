@@ -8,13 +8,15 @@ import {
 import '../../../../app/App.css'
 import {TaskStatuses, TaskType} from "../../../../api/todolist-api";
 import {AppDispatch} from "../../../../app/store";
+import {RequestStatusType} from "../../../../app/app-reducer";
 
 export type TaskPropsType = {
     task: TaskType
     todolistId: string
+    todolistStatus: RequestStatusType
 }
 
-export const Task = React.memo(({task, todolistId} : TaskPropsType) => {
+export const Task = React.memo(({task, todolistId, todolistStatus} : TaskPropsType) => {
     const dispatch = AppDispatch()
 
     const onClickHandler = useCallback(() => dispatch(removeTasksTC(todolistId, task.id)), [])
@@ -33,11 +35,12 @@ export const Task = React.memo(({task, todolistId} : TaskPropsType) => {
                     checked={task.status === TaskStatuses.Completed}
                     color="primary"
                     onChange={onChangeHandler}
+                    disabled={todolistStatus === 'loading'}
                 />
 
-                <EditableSpan title={task.title} changeTitle={onTitleChangeHandler} />
+                <EditableSpan title={task.title} changeTitle={onTitleChangeHandler}/>
 
-                <IconButton onClick={onClickHandler}>
+                <IconButton onClick={onClickHandler} disabled={todolistStatus === 'loading'}>
                     <Delete />
                 </IconButton>
             </div>
