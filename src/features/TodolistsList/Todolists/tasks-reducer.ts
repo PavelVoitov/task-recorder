@@ -1,7 +1,7 @@
 import {TasksStateType} from "../../../app/App";
 import {
     AddTodoListAT,
-    changeTodolistEntityStatusAC, changeTodolistEntityStatusActionType,
+    changeTodolistEntityStatusAC, changeTodolistEntityStatusActionType, clearTodolistsActionType,
     RemoveTodoListAT,
     SetTodolistsActionType
 } from "./todolists-reducer";
@@ -26,6 +26,7 @@ type ActionType =
     | SetAppErrorType
     | SetAppStatusType
     | changeTodolistEntityStatusActionType
+    | clearTodolistsActionType
 
 const initialState: TasksStateType = {}
 
@@ -64,14 +65,15 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             delete copyState[action.todoListId]
             return copyState;
         }
-        // case 'SET-TODOLISTS': {
-        //     const copyState = {...state}
-        //     action.todolists.forEach((tl) => {
-        //         console.log('tl', tl)
-        //         copyState[tl.id] = []
-        //     })
-        //     return copyState
-        // }
+        case 'SET-TODOLISTS': {
+            const copyState = {...state}
+            action.todolists.forEach((tl) => {
+                copyState[tl.id] = []
+            })
+            return copyState
+        }
+        case 'CLEAR-DATA':
+            return {}
         default:
             return state
     }

@@ -1,12 +1,16 @@
 import {todolistsApi, TodolistType} from "../../../api/todolists-api";
-import {Dispatch} from "redux";
+import {AnyAction, Dispatch} from "redux";
 import {RequestStatusType, setAppStatusAC, SetAppStatusType} from "../../../app/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../../utils/error-utils";
+import {setTasksTC} from "./tasks-reducer";
+import {ThunkAction} from "redux-thunk";
+import {AppRootStateType} from "../../../app/store";
 
 export type RemoveTodoListAT = ReturnType<typeof removeTodolistAC>
 export type AddTodoListAT = ReturnType<typeof addTodolistAC>
 export type SetTodolistsActionType = ReturnType<typeof setTodolistsAC>
 export type changeTodolistEntityStatusActionType = ReturnType<typeof changeTodolistEntityStatusAC>
+export type clearTodolistsActionType = ReturnType<typeof clearTodolistsAC>
 
 export type FilterValuesType = "all" | "active" | "completed";
 export type TodolistDomainType = TodolistType & {
@@ -22,6 +26,7 @@ type ActionType =
     | SetTodolistsActionType
     | SetAppStatusType
     | ReturnType<typeof changeTodolistEntityStatusAC>
+    | clearTodolistsActionType
 
 const initialState: Array<TodolistDomainType> = []
 
@@ -39,6 +44,8 @@ export const todolistsReducer = (todoLists: Array<TodolistDomainType> = initialS
             return todoLists.map(el => el.id === action.todoListId ? {...el, entityStatus: action.status} : el)
         case 'SET-TODOLISTS':
             return action.todolists.map(tl => ({...tl, filter: 'all', entityStatus: 'idle'}))
+        case 'CLEAR-DATA':
+            return []
         default:
             return todoLists
     }
@@ -56,15 +63,22 @@ export const setTodolistsAC = (todolists: Array<TodolistDomainType>) =>
     ({type: 'SET-TODOLISTS', todolists} as const)
 export const changeTodolistEntityStatusAC = (todoListId: string, status: RequestStatusType) =>
     ({type: 'CHANGE-TODOLIST-ENTITY-STATUS', todoListId, status} as const)
-
+export const clearTodolistsAC = () => ({type: 'CLEAR-DATA'} as const)
 
 //thunks
-export const getTodolistsTC = () => (dispatch: Dispatch<ActionType>) => {
+export const getTodolistsTC = (): ThunkAction<void, AppRootStateType, unknown, AnyAction> => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     todolistsApi.getTodolist()
         .then((res) => {
             dispatch(setTodolistsAC(res.data))
             dispatch(setAppStatusAC('succeeded'))
+            return res.data
+        })
+        .then((todolists) => {
+            todolists.forEach((tl: TodolistDomainType) => {
+                dispatch(setTasksTC(tl.id))
+            })
+
         })
         .catch((error) => {
             handleServerNetworkError(error, dispatch)
@@ -96,14 +110,14 @@ export const createTodolistTC = (title: string) => (dispatch: Dispatch<ActionTyp
             }
         })
         .catch((error) => {
-        handleServerNetworkError(error, dispatch)
-    })
+            handleServerNetworkError(error, dispatch)
+        })
 }
 export const updateTodolistTC = (todolistId: string, title: string) => (dispatch: Dispatch<ActionType>) => {
     todolistsApi.updateTodolist(todolistId, title)
         .then((res) => {
             if (res.data.resultCode === 0) {
-            dispatch(changeTodolistTitleAC(todolistId, title))
+                dispatch(changeTodolistTitleAC(todolistId, title))
             } else {
                 handleServerAppError(res.data, dispatch)
             }
