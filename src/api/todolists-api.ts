@@ -5,12 +5,12 @@ const instance = axios.create({
     withCredentials: true,
     headers: {
         // Не забываем заменить API-KEY на собственный
-        'API-KEY': '751c0e4a-d144-43ff-8601-b34ce7e94bd1',
+        'API-KEY': '67763ff0-e964-44b8-aaf9-d7b384c4ae49',
     },
 })
 
 // api
-export const todolistAPI = {
+export const todolistsApi = {
     getTodolist() {
         return instance.get('todo-lists')
     },
@@ -52,6 +52,25 @@ export const todolistAPI = {
         )
     },
 
+}
+
+
+export type LoginParamsType = {
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha?: string
+}
+export const authApi = {
+    login(data: LoginParamsType) {
+            return instance.post<ResponseType<{userId?: number}>>('auth/login', data)
+    },
+    logout() {
+      return instance.delete<ResponseType>('auth/login')
+    },
+    me() {
+        return instance.get<ResponseType<{id: number, email: string, login: string}>>('auth/me')
+    }
 }
 
 // types

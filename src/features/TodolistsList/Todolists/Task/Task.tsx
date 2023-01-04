@@ -6,7 +6,7 @@ import {
     removeTasksTC, updateTaskTC,
 } from "../tasks-reducer";
 import '../../../../app/App.css'
-import {TaskStatuses, TaskType} from "../../../../api/todolist-api";
+import {TaskStatuses, TaskType} from "../../../../api/todolists-api";
 import {AppDispatch} from "../../../../app/store";
 import {RequestStatusType} from "../../../../app/app-reducer";
 

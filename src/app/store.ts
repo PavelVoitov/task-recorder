@@ -4,6 +4,7 @@ import {todolistsReducer} from "../features/TodolistsList/Todolists/todolists-re
 import thunk, {ThunkDispatch} from 'redux-thunk'
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import {appReducer} from "./app-reducer";
+import {authReducer} from "../features/Login/auth-reducer";
 
 declare global {
     interface Window {
@@ -15,7 +16,8 @@ declare global {
 const rootReducer = combineReducers({
     tasks: tasksReducer,
     todolists: todolistsReducer,
-    app: appReducer
+    app: appReducer,
+    auth: authReducer
 })
 
 

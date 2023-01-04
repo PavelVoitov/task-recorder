@@ -4,10 +4,11 @@ import {EditableSpan} from '../../../components/EditableSpan/EditableSpan';
 import {Delete} from "@mui/icons-material";
 import {Button, IconButton} from "@mui/material";
 import {Task} from "./Task/Task";
-import {TaskStatuses, TaskType} from "../../../api/todolist-api";
+import {TaskStatuses, TaskType} from "../../../api/todolists-api";
 import {FilterValuesType, TodolistDomainType} from "./todolists-reducer";
-import {AppDispatch} from "../../../app/store";
+import {AppDispatch, useAppSelector} from "../../../app/store";
 import {setTasksTC} from "./tasks-reducer";
+
 
 
 type PropsType = {
@@ -22,15 +23,17 @@ type PropsType = {
 
 
 export const Todolist = React.memo(({demo = false, ...props}: PropsType) => {
+    const dispatch = AppDispatch()
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
-    const dispatch = AppDispatch();
+
     useEffect(() => {
-        if (demo) {
+        if (demo || !isLoggedIn) {
             return
         }
-        dispatch(setTasksTC(props.todolist.id))
-
+       dispatch(setTasksTC(props.todolist.id))
     }, [])
+
     const addTask = useCallback((title: string) => {
         props.addTask(props.todolist.id, title);
     }, [props.addTask, props.todolist.id])
@@ -65,7 +68,7 @@ export const Todolist = React.memo(({demo = false, ...props}: PropsType) => {
         <AddItemForm addItem={addTask} disabled={props.todolist.entityStatus === 'loading'}/>
         <div>
             {
-                tasksForTodolist.map(t => {
+                tasksForTodolist?.map(t => {
                     return <Task key={t.id}
                                  task={t}
                                  todolistId={props.todolist.id}
