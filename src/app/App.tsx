@@ -65,13 +65,12 @@ const App = memo(({demo = false}: AppPropsType) => {
                         </Typography>
                         {isLoggedIn ? <Button color="inherit" onClick={logOutHandler}>Logout</Button> : ''}
                     </Toolbar>
-                    {status === 'loading' ? <LinearProgress/> : ''}
+                    {status === 'loading' ?  <LinearProgress sx={{height: 5}}/> : <div style={{height: 5}}></div>}
                 </AppBar>
                 <Container fixed>
                     <Routes>
                         <Route path='/' element={<TodolistsList demo={demo}/>}/>
                         <Route path='/login' element={<Login/>}/>
-
                         <Route path='/404' element={<h1>404: PAGE NOT FOUND</h1>}/>
                         <Route path='*' element={<Navigate to='/404'/>}/>
                     </Routes>

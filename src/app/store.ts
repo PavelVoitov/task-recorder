@@ -1,10 +1,11 @@
 import {tasksReducer} from '../features/TodolistsList/Todolists/tasks-reducer'
-import {AnyAction, applyMiddleware, combineReducers, compose, legacy_createStore} from "redux";
+import {AnyAction, combineReducers, compose} from "redux";
 import {todolistsReducer} from "../features/TodolistsList/Todolists/todolists-reducer";
 import thunk, {ThunkDispatch} from 'redux-thunk'
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import {appReducer} from "./app-reducer";
 import {authReducer} from "../features/Login/auth-reducer";
+import {configureStore} from "@reduxjs/toolkit";
 
 declare global {
     interface Window {
@@ -20,14 +21,16 @@ const rootReducer = combineReducers({
     auth: authReducer
 })
 
-
-// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-export const store = legacy_createStore(rootReducer, applyMiddleware(thunk));
+export const store = configureStore({
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware()
+            .prepend(thunk)
+})
 
 export type AppRootStateType = ReturnType<typeof rootReducer>
 
 type AppDispatchType = ThunkDispatch<AppRootStateType, any, AnyAction>
-
 export const AppDispatch = () => useDispatch<AppDispatchType>()
 export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
 
