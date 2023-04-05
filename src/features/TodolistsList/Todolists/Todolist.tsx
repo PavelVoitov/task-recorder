@@ -1,10 +1,10 @@
 import React, {useCallback} from 'react';
-import {AddItemForm} from '../../../components/AddItemForm/AddItemForm';
-import {EditableSpan} from '../../../components/EditableSpan/EditableSpan';
+import {AddItemForm} from 'components/AddItemForm/AddItemForm';
+import {EditableSpan} from 'components/EditableSpan/EditableSpan';
 import {Delete} from "@mui/icons-material";
 import {Button, IconButton} from "@mui/material";
 import {Task} from "./Task/Task";
-import {TaskStatuses, TaskType} from "../../../api/todolists-api";
+import {TaskStatuses, TaskType} from "api/todolists-api";
 import {FilterValuesType, TodolistDomainType} from "./todolists-reducer";
 
 
@@ -80,7 +80,7 @@ export const Todolist = React.memo(({demo = false, ...props}: PropsType) => {
             <ButtonWithMemo
                 variant={props.todolist.filter === 'completed' ? 'outlined' : 'text'}
                 onClick={onCompletedClickHandler}
-                color={'secondary'}
+                color={'error'}
                 title={'Completed'}
             />
         </div>

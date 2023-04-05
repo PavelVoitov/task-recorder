@@ -11,15 +11,15 @@ import {
     Typography
 } from "@mui/material";
 import {Menu} from "@mui/icons-material";
-import {TaskType} from "../api/todolists-api";
-import {TodolistsList} from "../features/TodolistsList/TodolistsList";
+import {TaskType} from "api/todolists-api";
+import {TodolistsList} from "features/TodolistsList/TodolistsList";
 import {AppDispatch, AppRootStateType, useAppSelector} from "./store";
-import {ErrorSnackbars} from "../components/ErrorSnackbar/ErrorSnackbar";
+import {ErrorSnackbars} from "components/ErrorSnackbar/ErrorSnackbar";
 import {useSelector} from "react-redux";
 import {initializeAppTC, RequestStatusType} from "./app-reducer";
 import {Navigate, Route, Routes} from "react-router-dom";
-import {Login} from "../features/Login/Login";
-import { logoutTC } from '../features/Login/auth-reducer';
+import {Login} from "features/Login/Login";
+import { logoutTC } from 'features/Login/auth-reducer';
 
 
 export type TasksStateType = {
@@ -55,7 +55,7 @@ const App = memo(({demo = false}: AppPropsType) => {
     return (
             <div className="App">
                 <ErrorSnackbars/>
-                <AppBar position="static">
+                <AppBar position="static" color={'primary'}>
                     <Toolbar>
                         <IconButton edge="start" color="inherit" aria-label="menu">
                             <Menu/>

@@ -54,13 +54,6 @@ export const todolistsApi = {
 
 }
 
-
-export type LoginParamsType = {
-    email: string
-    password: string
-    rememberMe: boolean
-    captcha?: string
-}
 export const authApi = {
     login(data: LoginParamsType) {
             return instance.post<ResponseType<{userId?: number}>>('auth/login', data)
@@ -74,6 +67,12 @@ export const authApi = {
 }
 
 // types
+export type LoginParamsType = {
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha?: string
+}
 export enum TaskStatuses {
     New = 0,
     InProgress = 1,
