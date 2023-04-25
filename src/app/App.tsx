@@ -37,7 +37,9 @@ const App = memo(({demo = false}: AppPropsType) => {
     const dispatch = AppDispatch()
 
     useEffect(() => {
-        dispatch(initializeAppTC())
+        if (!demo) {
+            dispatch(initializeAppTC())
+        }
     }, [])
 
     const logOutHandler = useCallback(() => {

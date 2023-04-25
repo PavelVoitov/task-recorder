@@ -31,7 +31,8 @@ export const AppDispatch = () => useDispatch<AppDispatchType>()
 export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
 
 //types
-export type AppRootStateType = ReturnType<typeof rootReducer>
+export type RootReducerType = typeof rootReducer
+export type AppRootStateType = ReturnType<RootReducerType>
 type AppDispatchType = ThunkDispatch<AppRootStateType, any, AnyAction>
 
 // @ts-ignore

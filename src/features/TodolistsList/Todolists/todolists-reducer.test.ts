@@ -6,7 +6,7 @@ import {
     removeTodolistAC, setTodolistsAC, TodolistDomainType,
     todolistsReducer
 } from "./todolists-reducer";
-import {RequestStatusType} from "../../../app/app-reducer";
+import {RequestStatusType} from "app/app-reducer";
 
 
 

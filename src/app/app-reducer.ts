@@ -48,7 +48,6 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
 //types
 export type SetAppErrorType = ReturnType<typeof setAppErrorAC>
 export type SetAppStatusType = ReturnType<typeof setAppStatusAC>
-export type SetAppInitializedType = ReturnType<typeof setAppInitializedAC>
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 export type ErrorType = string | null
 
