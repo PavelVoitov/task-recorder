@@ -1,4 +1,4 @@
-import {addTaskAC, removeTaskAC, tasksReducer, updateTaskAC} from './tasks-reducer'
+import {addTasksTC, removeTaskTC, setTasksTC, tasksReducer, updateTaskAC} from './tasks-reducer'
 import {TasksStateType} from "app/App";
 import {addTodolistAC, removeTodolistAC, setTodolistsAC} from "./todolists-reducer";
 import {TaskPriorities, TaskStatuses} from "api/todolists-api";
@@ -88,7 +88,8 @@ beforeEach(() => {
 
 test('correct task should be deleted from correct array', () => {
 
-    const action = removeTaskAC({todolistId: 'todoListId2', taskId: '2'})
+    const param = {todolistId: 'todoListId2', taskId: '2'};
+    const action = removeTaskTC.fulfilled(param, 'requestId', param)
 
     const endState = tasksReducer(startState, action)
 
@@ -104,7 +105,6 @@ test('correct task should be deleted from correct array', () => {
         order: 0,
         addedDate: ''})
 })
-
 
 test('status of specified task should be changed', () => {
 
@@ -177,7 +177,10 @@ test('empty arrays should be added when we set todolists', () => {
 })
 
 test('correct task should be added to correct array', () => {
-    const action = addTaskAC({
+
+    const param = {todolistId: 'todoListId2', title: 'juice'};
+
+    const action = addTasksTC.fulfilled({task: {
         todoListId: 'todoListId2',
         title: 'juice',
         status: TaskStatuses.New,
@@ -188,11 +191,24 @@ test('correct task should be added to correct array', () => {
         priority: 0,
         startDate: '',
         id: '55'
-    })
+    }}, '', param)
 
     const endState = tasksReducer(startState, action)
     expect(endState['todoListId2'].length).toBe(4);
     expect(endState['todoListId1'].length).toBe(3)
     expect(endState['todoListId2'][0].title).toBe('juice')
     expect(endState['todoListId2'][0].status).toBe(TaskStatuses.New)
+})
+
+test('tasks should be added for the todolist', () => {
+    const action = setTasksTC.fulfilled({tasks: startState['todoListId1'], todolistId: 'todoListId1'}, '', 'todoListId1')
+
+    const endState = tasksReducer({
+        'todoListId1': [],
+        'todoListId2': [],
+
+    }, action)
+
+    expect(endState['todoListId1'].length).toBe(3)
+    expect(endState['todoListId2'].length).toBe(0)
 })

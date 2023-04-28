@@ -110,10 +110,11 @@ export type TodolistType = {
     addedDate: ''
     order: number
 }
+export type FieldErrorType = { field: string, error: string };
 export type ResponseType<T = {}> = {
-    fieldsErrors: string[]
     resultCode: number
     messages: string[]
+    fieldsErrors: FieldErrorType[]
     data: T
 }
 export type UpdateTaskModelType = {

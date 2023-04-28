@@ -8,12 +8,12 @@ import {
     TodolistDomainType,
     updateTodolistTC
 } from "./Todolists/todolists-reducer";
-import {AppDispatch, useAppSelector} from "../../app/store";
+import {AppDispatch, useAppSelector} from "app/store";
 import {addTasksTC} from "./Todolists/tasks-reducer";
 import {Grid, Paper} from "@mui/material";
-import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
+import {AddItemForm} from "components/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolists/Todolist";
-import {TasksStateType} from "../../app/App";
+import {TasksStateType} from "app/App";
 import {Navigate} from "react-router-dom";
 
 type TodolistsListPropsType = {
@@ -35,7 +35,7 @@ export const TodolistsList: React.FC<TodolistsListPropsType> = ({demo = false}) 
     }, [])
 
     const addTask = useCallback((todolistId: string, title: string,) => {
-        dispatch(addTasksTC(todolistId, title));
+        dispatch(addTasksTC({todolistId, title}));
     }, [dispatch])
 
     const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {
