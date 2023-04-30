@@ -39,9 +39,6 @@ export const Login = () => {
             if (!values.email) {
                 errors.email = 'Email is required!'
             }
-            // else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-            //     errors.email = 'Invalid email address'
-            // }
             if (!values.password) {
                 errors.password = 'Password is required!'
             } else if (values.password.length < 3) {
@@ -85,14 +82,18 @@ export const Login = () => {
                             margin="normal"
                             {...formik.getFieldProps("email")}
                         />
-                        {formik.errors.email ? <div style={{color: "red"}}>{formik.errors.email}</div> : ''}
+                        <div style={{height: 10, marginBottom: 5}}>
+                            {formik.errors.email ? <div style={{color: "red"}}>{formik.errors.email}</div> : ''}
+                        </div>
                         <TextField
                             type="password"
                             label="Password"
                             margin="normal"
                             {...formik.getFieldProps("password")}
                         />
-                        {formik.errors.password ? <div style={{color: "red"}}>{formik.errors.password}</div> : ''}
+                        <div style={{height: 10, marginBottom: 5}}>
+                            {formik.errors.password ? <div style={{color: "red"}}>{formik.errors.password}</div> : ''}
+                        </div>
                         <FormControlLabel
                             label={'Remember me'}
                             control={<Checkbox
