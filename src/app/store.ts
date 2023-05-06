@@ -1,11 +1,12 @@
-import {tasksReducer} from 'features/TodolistsList/Todolists/tasks-reducer'
-import {combineReducers, compose} from "redux";
+import {tasksReducer} from 'features/TodolistsList/Todolists/Task/tasks-reducer'
+import {ActionCreatorsMapObject, bindActionCreators, combineReducers, compose} from "redux";
 import {todolistsReducer} from "features/TodolistsList/Todolists/todolists-reducer";
 import thunk from 'redux-thunk'
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import {appReducer} from "./app-reducer";
-import {authReducer} from "features/Login/auth-reducer";
+import {authReducer} from "features/Auth/auth-reducer";
 import {configureStore} from "@reduxjs/toolkit";
+import {useMemo} from "react";
 
 declare global {
     interface Window {
@@ -38,3 +39,10 @@ type AppDispatchType = typeof store.dispatch
 
 // @ts-ignore
 window.store = store;
+
+export const useAction = <T extends ActionCreatorsMapObject<any>>(actions: T) => {
+    const dispatch = AppDispatch()
+    return  useMemo(() => {
+        return bindActionCreators(actions, dispatch)
+    }, [])
+}

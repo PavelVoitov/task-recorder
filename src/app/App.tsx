@@ -12,14 +12,15 @@ import {
 } from "@mui/material";
 import {Menu} from "@mui/icons-material";
 import {TaskType} from "api/todolists-api";
-import {TodolistsList} from "features/TodolistsList/TodolistsList";
-import {AppDispatch, AppRootStateType, useAppSelector} from "./store";
+import {TodolistsList} from "features/TodolistsList";
+import {AppDispatch, useAppSelector} from "./store";
 import {ErrorSnackbars} from "components/ErrorSnackbar/ErrorSnackbar";
-import {useSelector} from "react-redux";
-import {initializeAppTC, RequestStatusType} from "./app-reducer";
 import {Navigate, Route, Routes} from "react-router-dom";
-import {Login} from "features/Login/Login";
-import { logoutTC } from 'features/Login/auth-reducer';
+import {Login} from "features/Auth";
+import {authSelectors} from 'features/Auth';
+import {selectIsInitialized, selectStatus} from "app/selectors";
+import {initializeAppTC} from "app/app-actions";
+import {logoutTC} from "features/Auth/auth-actions";
 
 
 export type TasksStateType = {
@@ -31,9 +32,9 @@ type AppPropsType = {
 }
 
 const App = memo(({demo = false}: AppPropsType) => {
-    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
-    const isInitialized = useAppSelector(state => state.app.isInitialized)
-    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+    const status = useAppSelector(selectStatus)
+    const isInitialized = useAppSelector(selectIsInitialized)
+    const isLoggedIn = useAppSelector(authSelectors.selectIsLoggedIn)
     const dispatch = AppDispatch()
 
     useEffect(() => {

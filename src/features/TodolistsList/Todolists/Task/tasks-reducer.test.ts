@@ -1,7 +1,8 @@
-import {addTasksTC, removeTaskTC, setTasksTC, tasksReducer, updateTaskTC} from './tasks-reducer'
+import {tasksReducer} from 'features/TodolistsList/Todolists/Task/tasks-reducer'
 import {TasksStateType} from "app/App";
-import {createTodolistTC, deleteTodolistTC, getTodolistsTC} from "./todolists-reducer";
 import {TaskPriorities, TaskStatuses} from "api/todolists-api";
+import {addTask, removeTask, setTasks, updateTask} from "features/TodolistsList/Todolists/Task/tasks-actions";
+import {createTodolist, deleteTodolist, getTodolists} from "features/TodolistsList/Todolists/todolists-actions";
 
 
 let startState: TasksStateType
@@ -91,7 +92,7 @@ beforeEach(() => {
 test('correct task should be deleted from correct array', () => {
 
 	const param = {todolistId: 'todoListId2', taskId: '2'};
-	const action = removeTaskTC.fulfilled(param, 'requestId', param)
+	const action = removeTask.fulfilled(param, 'requestId', param)
 
 	const endState = tasksReducer(startState, action)
 
@@ -111,7 +112,7 @@ test('correct task should be deleted from correct array', () => {
 
 test('status of specified task should be changed', () => {
 	const param = {taskId: '2', model: {status: TaskStatuses.New}, todolistId: 'todoListId2',}
-	const action = updateTaskTC.fulfilled(param, 'requestId', param)
+	const action = updateTask.fulfilled(param, 'requestId', param)
 
 	const endState = tasksReducer(startState, action)
 
@@ -122,7 +123,7 @@ test('status of specified task should be changed', () => {
 test('title of specified task should be changed', () => {
 	const newTitle = '1111'
 	const param = {taskId: '2', model: {title: newTitle}, todolistId: 'todoListId2'}
-	const action = updateTaskTC.fulfilled(param, 'requestId', param)
+	const action = updateTask.fulfilled(param, 'requestId', param)
 
 	const endState = tasksReducer(startState, action)
 
@@ -131,7 +132,7 @@ test('title of specified task should be changed', () => {
 })
 
 test('new array should be added when new todolist is added', () => {
-	const action = createTodolistTC.fulfilled({todolist: {id: "1", title: "1", addedDate: '', order: 0}}, 'requiredId', "1")
+	const action = createTodolist.fulfilled({todolist: {id: "1", title: "1", addedDate: '', order: 0}}, 'requiredId', "1")
 
 	const endState = tasksReducer(startState, action)
 
@@ -149,7 +150,7 @@ test('new array should be added when new todolist is added', () => {
 test('property with todolistId should be deleted', () => {
 	const param = {id: 'todoListId2'}
 
-	const action = deleteTodolistTC.fulfilled(param, 'requeredId', 'todoListId2')
+	const action = deleteTodolist.fulfilled(param, 'requeredId', 'todoListId2')
 
 	const endState = tasksReducer(startState, action)
 
@@ -166,7 +167,7 @@ test('empty arrays should be added when we set todolists', () => {
 		{id: "2", title: "2", addedDate: '', order: 0, filter: "all", entityStatus: 'idle'}
 	]
 
-	const action = getTodolistsTC.fulfilled({todolists: todoLists}, "requiredId")
+	const action = getTodolists.fulfilled({todolists: todoLists}, "requiredId")
 
 	const endState = tasksReducer({}, action)
 
@@ -181,7 +182,7 @@ test('correct task should be added to correct array', () => {
 
 	const param = {todolistId: 'todoListId2', title: 'juice'};
 
-	const action = addTasksTC.fulfilled({
+	const action = addTask.fulfilled({
 		todoListId: 'todoListId2',
 		title: 'juice',
 		status: TaskStatuses.New,
@@ -202,7 +203,7 @@ test('correct task should be added to correct array', () => {
 })
 
 test('tasks should be added for the todolist', () => {
-	const action = setTasksTC.fulfilled({tasks: startState['todoListId1'], todolistId: 'todoListId1'}, '', 'todoListId1')
+	const action = setTasks.fulfilled({tasks: startState['todoListId1'], todolistId: 'todoListId1'}, '', 'todoListId1')
 
 	const endState = tasksReducer({
 		'todoListId1': [],

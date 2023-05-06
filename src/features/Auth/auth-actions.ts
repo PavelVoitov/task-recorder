@@ -1,8 +1,8 @@
+import {createAsyncThunk} from "@reduxjs/toolkit";
 import {authApi, FieldErrorType, LoginParamsType} from "api/todolists-api";
 import {setAppStatusAC} from "app/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "utils/error-utils";
-import {clearTodolistsAC} from "../TodolistsList/Todolists/todolists-reducer";
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {clearTodolists} from "features/TodolistsList/Todolists/todolists-reducer";
 
 
 //thunks
@@ -33,7 +33,7 @@ export const logoutTC = createAsyncThunk('auth/logout', async (param, thunkAPI) 
 		const res = await authApi.logout()
 		if (res.data.resultCode === 0) {
 			thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
-			thunkAPI.dispatch(clearTodolistsAC())
+			thunkAPI.dispatch(clearTodolists())
 			return
 		} else {
 			handleServerAppError(res.data, thunkAPI.dispatch)
@@ -44,28 +44,3 @@ export const logoutTC = createAsyncThunk('auth/logout', async (param, thunkAPI) 
 		return thunkAPI.rejectWithValue({})
 	}
 })
-
-const slice = createSlice({
-	name: 'auth',
-	initialState: {isLoggedIn: false},
-	reducers: {
-		setIsLoggedInAC(state, action: PayloadAction<{ value: boolean }>) {
-			state.isLoggedIn = action.payload.value
-		}
-	},
-	extraReducers: builder => {
-		builder.addCase(loginTC.fulfilled, (state) => {
-			state.isLoggedIn = true
-		})
-		builder.addCase(logoutTC.fulfilled, (state) => {
-			state.isLoggedIn = false
-		})
-	}
-})
-
-export const authReducer = slice.reducer
-export const {setIsLoggedInAC} = slice.actions
-
-
-
-
