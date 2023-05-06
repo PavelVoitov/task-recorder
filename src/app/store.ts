@@ -35,7 +35,6 @@ export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelecto
 export type RootReducerType = typeof rootReducer
 export type AppRootStateType = ReturnType<RootReducerType>
 type AppDispatchType = typeof store.dispatch
-  // ThunkDispatch<AppRootStateType, any, AnyAction>
 
 // @ts-ignore
 window.store = store;
