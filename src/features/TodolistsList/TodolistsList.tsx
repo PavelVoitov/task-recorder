@@ -1,7 +1,7 @@
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import {TodolistDomainType} from "./Todolists/todolists-reducer";
 import {useAction, useAppSelector} from "app/store";
-import {Grid, Paper} from "@mui/material";
+import {Grid} from "@mui/material";
 import {AddItemForm} from "components/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolists/Todolist";
 import {TasksStateType} from "app/App";
@@ -20,6 +20,10 @@ export const TodolistsList: React.FC<TodolistsListPropsType> = ({demo = false}) 
 
 	const {getTodolists, createTodolist} = useAction(todolistsActions)
 
+	const addTaskCallback = useCallback(async (title: string) => {
+		createTodolist(title);
+	}, [])
+
 	useEffect(() => {
 		if (demo || !isLoggedIn) {
 			return
@@ -33,21 +37,20 @@ export const TodolistsList: React.FC<TodolistsListPropsType> = ({demo = false}) 
 
 	return <>
 		<Grid container style={{padding: "20px"}}>
-			<AddItemForm addItem={createTodolist}/>
+			<AddItemForm addItem={addTaskCallback}/>
 		</Grid>
-		<Grid container spacing={3}>
-			{
-				todolists.map(tl => {
-					return <Grid item key={tl.id}>
-						<Paper style={{padding: "10px"}}>
-							<Todolist
-								todolist={tl}
-								tasks={tasks[tl.id]}
-								demo={demo}
-							/>
-						</Paper>
-					</Grid>
-				})
+		<Grid container spacing={3} style={{flexWrap: 'nowrap', overflowX: "scroll"}}>
+			{todolists.map(tl => {
+				return <Grid item key={tl.id}>
+					<div style={{margin: 10, width: 300}}>
+						<Todolist
+							todolist={tl}
+							tasks={tasks[tl.id]}
+							demo={demo}
+						/>
+					</div>
+				</Grid>
+			})
 			}
 		</Grid>
 	</>

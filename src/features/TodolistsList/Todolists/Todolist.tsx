@@ -2,11 +2,11 @@ import React, {useCallback} from 'react';
 import {AddItemForm} from 'components/AddItemForm/AddItemForm';
 import {EditableSpan} from 'components/EditableSpan/EditableSpan';
 import {Delete} from "@mui/icons-material";
-import {Button, IconButton} from "@mui/material";
+import {Button, IconButton, Paper} from "@mui/material";
 import {Task} from "./Task/Task";
 import {TaskStatuses, TaskType} from "api/todolists-api";
 import {FilterValuesType, TodolistDomainType} from "./todolists-reducer";
-import {useAction} from "app/store";
+import {AppDispatch, useAction} from "app/store";
 import {tasksActions, todolistsActions} from "features/TodolistsList/index";
 
 
@@ -17,11 +17,20 @@ type PropsType = {
 }
 
 export const Todolist = React.memo(({demo = false, ...props}: PropsType) => {
-	const {addTask} = useAction(tasksActions)
+	const dispatch = AppDispatch()
+	// const {addTask} = useAction(tasksActions)
 	const {changeTodolistFilterAction, deleteTodolist, changeTodolistTitleAction} = useAction(todolistsActions)
 
-	const addTaskCallback = useCallback((title: string) => {
-		addTask({todolistId: props.todolist.id, title});
+	const addTaskCallback = useCallback(async (title: string) => {
+		const resultAction = await dispatch(tasksActions.addTask({todolistId: props.todolist.id, title}))
+		if (tasksActions.addTask.rejected.match(resultAction)) {
+			if (resultAction.payload?.errors?.length) {
+				const errorMessage = resultAction.payload.errors[0]
+				throw new Error(errorMessage)
+			} else {
+				throw new Error("Some error occurred")
+			}
+		}
 	}, [props.todolist.id])
 
 	const removeTodolist = useCallback(() => {
@@ -56,29 +65,27 @@ export const Todolist = React.memo(({demo = false, ...props}: PropsType) => {
 		</Button>
 	}
 
-	return <div>
-		<h3><EditableSpan title={props.todolist.title} changeTitle={changeTitle}/>
-			<IconButton onClick={removeTodolist} disabled={props.todolist.entityStatus === 'loading'}>
-				<Delete/>
-			</IconButton>
+	return <Paper style={{position: "relative", padding: "10px"}} elevation={8}>
+		<IconButton onClick={removeTodolist} disabled={props.todolist.entityStatus === 'loading'}
+								style={{position: "absolute", right: 5, top: 5}}
+		>
+			<Delete/>
+		</IconButton>
+		<h3>
+			<EditableSpan title={props.todolist.title} changeTitle={changeTitle}/>
 		</h3>
 		<AddItemForm addItem={addTaskCallback} disabled={props.todolist.entityStatus === 'loading'}/>
 		<div>
-			{
-				tasksForTodolist.map(t => {
-					return <Task key={t.id}
-											 task={t}
-											 todolistId={props.todolist.id}
-											 todolistStatus={props.todolist.entityStatus}
-					/>
-				})
-			}
+			{tasksForTodolist.map(t => {
+				return <Task key={t.id} task={t} todolistId={props.todolist.id} todolistStatus={props.todolist.entityStatus}/>
+			})}
+			{tasksForTodolist.length === 0 && <span style={{padding: 5, color: "grey"}}>No tasks</span>}
 		</div>
 		<div style={{paddingTop: "10px"}}>
-			{renderFilterButton( 'inherit', 'ALL', "all")}
-			{renderFilterButton( 'primary', 'Active', "active")}
-			{renderFilterButton( 'error', 'Completed', "completed")}
+			{renderFilterButton('inherit', 'ALL', "all")}
+			{renderFilterButton('primary', 'Active', "active")}
+			{renderFilterButton('error', 'Completed', "completed")}
 		</div>
-	</div>
+	</Paper>
 })
 
