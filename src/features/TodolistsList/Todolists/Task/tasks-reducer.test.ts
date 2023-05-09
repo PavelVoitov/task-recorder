@@ -1,8 +1,8 @@
-import {tasksReducer} from 'features/TodolistsList/Todolists/Task/tasks-reducer'
+import {tasksReducer} from 'features/TodolistsList'
 import {TasksStateType} from "app/App";
 import {TaskPriorities, TaskStatuses} from "api/todolists-api";
-import {addTask, removeTask, setTasks, updateTask} from "features/TodolistsList/Todolists/Task/tasks-actions";
-import {createTodolist, deleteTodolist, getTodolists} from "features/TodolistsList/Todolists/todolists-actions";
+import {addTask, removeTask, setTasks, updateTask} from "features/TodolistsList/Todolists/Task/tasks-reducer";
+import {addTodolist, deleteTodolist, setTodolists} from "features/TodolistsList/Todolists/todolists-reducer";
 
 
 let startState: TasksStateType
@@ -132,7 +132,7 @@ test('title of specified task should be changed', () => {
 })
 
 test('new array should be added when new todolist is added', () => {
-	const action = createTodolist.fulfilled({todolist: {id: "1", title: "1", addedDate: '', order: 0}}, 'requiredId', "1")
+	const action = addTodolist.fulfilled({todolist: {id: "1", title: "1", addedDate: '', order: 0}}, 'requiredId', "1")
 
 	const endState = tasksReducer(startState, action)
 
@@ -162,12 +162,13 @@ test('property with todolistId should be deleted', () => {
 })
 
 test('empty arrays should be added when we set todolists', () => {
-	const todoLists = [
-		{id: "1", title: "1", addedDate: '', order: 0, filter: "all", entityStatus: 'idle'},
-		{id: "2", title: "2", addedDate: '', order: 0, filter: "all", entityStatus: 'idle'}
-	]
-
-	const action = getTodolists.fulfilled({todolists: todoLists}, "requiredId")
+	let payload = {
+		todolists: [
+			{id: '1', title: 'title 1', addedDate: '', order: 0},
+			{id: '2', title: 'title 2', addedDate: '', order: 0}
+		]
+	}
+	const action = setTodolists.fulfilled(payload, "requiredId", undefined)
 
 	const endState = tasksReducer({}, action)
 

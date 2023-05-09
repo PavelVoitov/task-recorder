@@ -4,9 +4,9 @@ import {Delete} from "@mui/icons-material";
 import {Checkbox, IconButton} from "@mui/material";
 import '../../../../app/App.css'
 import {TaskStatuses, TaskType} from "api/todolists-api";
-import {useAction} from "app/store";
-import {RequestStatusType} from "app/app-reducer";
+import {RequestStatusType} from "features/Application/application-reducer";
 import {tasksActions} from "features/TodolistsList/index";
+import {useActions} from "utils/redux-utils";
 
 export type TaskPropsType = {
 	task: TaskType
@@ -15,7 +15,7 @@ export type TaskPropsType = {
 }
 
 export const Task = React.memo(({task, todolistId, todolistStatus}: TaskPropsType) => {
-	const {removeTask, updateTask} = useAction(tasksActions)
+	const {removeTask, updateTask} = useActions(tasksActions)
 
 	const onClickHandler = useCallback(() => removeTask({todolistId, taskId: task.id}), [])
 

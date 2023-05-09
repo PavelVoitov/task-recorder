@@ -1,12 +1,12 @@
 import {v1} from "uuid";
 import {
+	addTodolist,
 	changeTodolistEntityStatusAction,
 	changeTodolistFilterAction,
-	changeTodolistTitleAction, FilterValuesType, TodolistDomainType,
-	todolistsReducer
+	changeTodolistTitleAction, deleteTodolist, FilterValuesType, setTodolists, TodolistDomainType,
 } from "./todolists-reducer";
-import {RequestStatusType} from "app/app-reducer";
-import {createTodolist, deleteTodolist, getTodolists} from "features/TodolistsList/Todolists/todolists-actions";
+import {RequestStatusType} from "features/Application/application-reducer";
+import {todolistsReducer} from "features/TodolistsList/index";
 
 
 let todolistId1: string
@@ -35,7 +35,7 @@ test('correct todolist should be added', () => {
 
 	const newTodolistTitle = 'List'
 
-	const endState = todolistsReducer(startState, createTodolist.fulfilled({
+	const endState = todolistsReducer(startState, addTodolist.fulfilled({
 		todolist: {
 			id: 'todolistId1',
 			title: newTodolistTitle,
@@ -70,7 +70,7 @@ test('title of todolist should be changed', () => {
 
 test('title should be set to the state', () => {
 	const param = {todolists: startState}
-	const action = getTodolists.fulfilled(param, 'requestId')
+	const action = setTodolists.fulfilled(param, 'requestId', undefined)
 	const endState = todolistsReducer([], action);
 
 	expect(endState.length).toBe(2);

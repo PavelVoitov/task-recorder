@@ -107,7 +107,7 @@ type TasksResponse = {
 export type TodolistType = {
     id: string
     title: string
-    addedDate: ''
+    addedDate: string
     order: number
 }
 export type FieldErrorType = { field: string, error: string };
