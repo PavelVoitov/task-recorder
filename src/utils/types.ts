@@ -1,5 +1,6 @@
-import {rootReducer, store} from "app/store";
+import {store} from "app/store";
 import {FieldErrorType} from "api/todolists-api";
+import {rootReducer} from "app/reducer";
 
 export type AppDispatchType = typeof store.dispatch
 export type RootReducerType = typeof rootReducer

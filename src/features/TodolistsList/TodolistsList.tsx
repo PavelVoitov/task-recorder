@@ -39,7 +39,9 @@ export const TodolistsList: React.FC<TodolistsListPropsType> = ({demo = false}) 
 		if (demo || !isLoggedIn) {
 			return
 		}
-		getTodolists()
+		if (!todolists.length) {
+			getTodolists()
+		}
 	}, [])
 
 	if (!isLoggedIn) {
