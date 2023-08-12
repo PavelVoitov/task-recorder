@@ -25,16 +25,13 @@ export type TasksStateType = {
 	[key: string]: Array<TaskType>
 }
 
-type AppPropsType = {
-}
-
-const App = memo((props: AppPropsType) => {
+const App = memo(() => {
 	const status = useAppSelector(selectStatus)
 	const isInitialized = useAppSelector(selectIsInitialized)
 	const isLoggedIn = useAppSelector(authSelectors.selectIsLoggedIn)
+
 	const {logout} = useActions(authActions)
 	const {initializeApp} = useActions(appActions)
-	console.log('1')
 
 	useEffect(() => {
 		if (!isInitialized) {
