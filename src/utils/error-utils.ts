@@ -1,7 +1,7 @@
 import {ResponseType} from "api/todolists-api";
 import {AxiosError} from "axios";
 
-import { appActions } from "features/CommonActions/App";
+import {appActions} from "features/CommonActions/App";
 
 type ThunkAPIType = {
 	dispatch: (action: any) => any
@@ -10,7 +10,7 @@ type ThunkAPIType = {
 
 export const handleAsyncServerAppError = <T>(data: ResponseType<T>,
 																						 thunkAPI: ThunkAPIType,
-																				showError = true) => {
+																						 showError = true) => {
 	if (showError) {
 		thunkAPI.dispatch(appActions.setAppError({error: data.messages.length ? data.messages[0] : 'Some error occurred'}))
 	}

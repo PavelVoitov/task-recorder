@@ -10,6 +10,7 @@ export const initializeApp = createAsyncThunk('app/initializeApp', async (param,
 		const res = await authApi.me()
 		if (res.data.resultCode === 0) {
 			thunkAPI.dispatch(authActions.setIsLoggedIn({value: true}))
+			return
 		} else {
 			return handleAsyncServerAppError(res.data, thunkAPI)
 		}
@@ -28,19 +29,24 @@ export const slice = createSlice({
 		status: 'idle' as RequestStatusType,
 		error: null as ErrorType,
 		isInitialized: false
-	},
+	} as InitialStateType,
 	reducers: {},
 	extraReducers: builder => {
 		builder
-			.addCase(initializeApp.fulfilled, (state) => {
-				state.isInitialized = true
-			})
 			.addCase(appActions.setAppStatus, (state, action) => {
 				state.status = action.payload.status
 			})
 			.addCase(appActions.setAppError, (state, action) => {
 				state.error = action.payload.error
 			})
+			.addMatcher(
+				(action) =>
+					action.type === initializeApp.fulfilled.type ||
+					action.type === initializeApp.rejected.type,
+				(state) => {
+					state.isInitialized = true;
+				}
+			)
 	}
 })
 

@@ -7,7 +7,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import {Form, FormikHelpers, useFormik} from 'formik';
+import {FormikHelpers, useFormik} from 'formik';
 import {Navigate} from "react-router-dom";
 import {selectIsLoggedIn} from "features/Auth/selectors";
 import {authActions} from "features/Auth/index";
@@ -65,7 +65,7 @@ export const Login = () => {
 
 	return <Grid container justifyContent={'center'}>
 		<Grid item justifyContent={'center'}>
-			<Form onSubmit={formik.handleSubmit}>
+			<form onSubmit={formik.handleSubmit}>
 				<FormControl>
 					<FormLabel>
 						<p>To log in get registered
@@ -106,7 +106,7 @@ export const Login = () => {
 						</Button>
 					</FormGroup>
 				</FormControl>
-			</Form>
+			</form>
 		</Grid>
 	</Grid>
 }

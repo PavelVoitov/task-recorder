@@ -18,7 +18,7 @@ type PropsType = {
 
 export const Todolist = React.memo(({demo = false, ...props}: PropsType) => {
 	const dispatch = AppDispatch()
-	const {changeTodolistFilterAction, deleteTodolist, changeTodolistTitleAction} = useActions(todolistsActions)
+	const {changeTodolistFilterAction, deleteTodolist, changeTodolistTitle} = useActions(todolistsActions)
 
 	const addTaskCallback = useCallback(async (title: string, helper: AddItemFormSubmitHelperType) => {
 		const resultAction = await dispatch(tasksActions.addTask({todolistId: props.todolist.id, title}))
@@ -39,7 +39,7 @@ export const Todolist = React.memo(({demo = false, ...props}: PropsType) => {
 	}, [props.todolist.id])
 
 	const changeTitle = useCallback((title: string) => {
-		changeTodolistTitleAction({id: props.todolist.id, title});
+		changeTodolistTitle({todolistId: props.todolist.id, title});
 	}, [props.todolist.id])
 
 	const onFilterButtonClickHandler = useCallback((filter: FilterValuesType) =>
