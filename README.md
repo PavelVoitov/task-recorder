@@ -1,44 +1,49 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Task Recorder
 
-## Available Scripts
+Task Recorder is a powerful and user-friendly application for recording and managing tasks. It allows users to create, edit, and track their tasks in a convenient and intuitive environment.
 
-In the project directory, you can run:
+## Technologies
 
-### `yarn start`
+- **React**: One of the most popular frameworks for building user interfaces.
+- **Redux Toolkit**: A powerful tool for state management and simplifying Redux usage.
+- **Redux Thunk**: A Redux middleware that allows us to handle asynchronous actions.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Installation and Running
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+1. Clone the repository to your computer:
 
-### `yarn test`
+git clone https://github.com/PavelVoitov/task-recorder.git
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. Navigate to the project folder:
 
-### `yarn build`
+cd task-recorder
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+3. Install dependencies:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+npm install
 
-### `yarn eject`
+4. Start the application:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+npm start
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The application will be available at `http://localhost:3000`.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Usage
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- **Registration and Login**: Users can register or log in to their accounts.
+- **Task Creation**: Create new tasks, specifying their title, description, deadline, and other details.
+- **View and Edit Tasks**: View your tasks, edit them, and mark them as completed.
+- **Filtering and Sorting**: Filter tasks by status.
+- **Server Interaction**: The application interacts with the server to store and update tasks.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Contact
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+If you have questions, suggestions, or issues, please contact me at voitovpavelpost@gmail.com.
+
+## Authors
+
+- [Pavel Voitov](https://github.com/PavelVoitov) - Lead developer and creator of the Task Recorder application.
+
+Thank you for using Task Recorder! I hope this application will be helpful in your day-to-day work and make you more productive.

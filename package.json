@@ -1,6 +1,6 @@
 {
   "name": "it-incubator-todolist-ts",
-  "homepage": "https://pavelvoitov.github.io/todolist-ts-01/",
+  "homepage": "https://pavelvoitov.github.io/task-recorder/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
