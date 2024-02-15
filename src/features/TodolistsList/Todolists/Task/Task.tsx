@@ -2,10 +2,10 @@ import {EditableSpan} from "components/EditableSpan/EditableSpan";
 import React, {ChangeEvent, useCallback} from "react";
 import {Delete} from "@mui/icons-material";
 import {Checkbox, IconButton} from "@mui/material";
-import '../../../../app/App.css'
+import 'app/App.css'
 import {TaskStatuses, TaskType} from "api/todolists-api";
 import {RequestStatusType} from "features/Application/application-reducer";
-import {tasksActions} from "features/TodolistsList/index";
+import {tasksActions} from "../../index";
 import {useActions} from "utils/redux-utils";
 
 export type TaskPropsType = {
@@ -48,7 +48,7 @@ export const Task = React.memo(({task, todolistId, todolistStatus}: TaskPropsTyp
 				onChange={onChangeHandler}
 				disabled={todolistStatus === 'loading'}
 			/>
-			<EditableSpan title={task.title} changeTitle={onTitleChangeHandler}/>
+			<EditableSpan title={task.title} changeTitle={onTitleChangeHandler} />
 			<IconButton
 				onClick={onClickHandler}
 				disabled={todolistStatus === 'loading'}
